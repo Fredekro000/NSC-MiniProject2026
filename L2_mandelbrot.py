@@ -10,10 +10,10 @@ x_min = -2
 y_max = 1.5
 y_min = -1.5
 
-size = 1024
+#size = 1024
 
 # Grid function
-def grid():
+def grid(size):
     x = np.linspace(x_min, x_max, size)
     y = np.linspace(y_min, y_max, size)
     X, Y = np.meshgrid(x, y)
@@ -23,8 +23,8 @@ def grid():
     return C
 
 # Mandelbrot function
-def mandelbrot():
-    C = grid()
+def mandelbrot(size):
+    C = grid(size)
 
     Z = np.zeros_like(C)
     M = np.zeros(C.shape, dtype=int)
@@ -36,12 +36,15 @@ def mandelbrot():
     
     return M
 
+sizes = [256, 512, 1024, 2048, 4096]
 
-start = time.time()
-M = mandelbrot()
-elapsed = time.time() - start
+for x in sizes:
+    start = time.time()
+    M = mandelbrot(size=x)
+    elapsed = time.time() - start
+    print(f"Computation took {elapsed:.3f} seconds")
 
-ax = plt.axes()
+""" ax = plt.axes()
 plt.rc('text', usetex = True)
 ax.set_aspect('equal')
 graph = ax.pcolormesh(M, cmap='hot')
@@ -50,4 +53,4 @@ plt.xlabel("Real-Axis")
 plt.ylabel("Imaginary-Axis")
 plt.title(f"Computation took {elapsed:.3f} seconds")
 plt.gcf().set_size_inches(5,4)
-plt.show()
+plt.show() """
