@@ -1,45 +1,65 @@
-import numpy as np, numba, matplotlib.pyplot as plt, dask, pytest, scipy, time
+import time
+import matplotlib.pyplot as plt
 
-start = time.time()
-
-# get evenly spaced numbers for both domains
-# this is essentially a list with 1024 numbers, 
-# spread out between -2 to 1, and -1.5 to 1.5
-x_domain = np.linspace(-2.0, 1.0, 1024)
-y_domain = np.linspace(-1.5, 1.5, 1024)
-
-# initialize parameters
+# Setup parameters
 bound = 2
 power = 2
 max_iter = 100
-colormap = 'magma'
 
-# nested loops for grid version of mandelbrot
-iteration_array = []
-for y in y_domain:
-    row = []
-    for x in x_domain:
-        c = complex(x, y)
-        z = 0
-        for iteration_number in range(max_iter):
-            if(abs(z) >= bound):
-                row.append(iteration_number)
-                break
-            else: z = z**power + c
-        else:
-            row.append(0)
-    iteration_array.append(row)
+x_max = 1
+x_min = -2
+y_max = 1.5
+y_min = -1.5
 
-# end time of computation
-elapsed = time.time() - start
+size = 1024
 
-ax = plt.axes()
-plt.rc('text', usetex = True)
-ax.set_aspect('equal')
-graph = ax.pcolormesh(x_domain, y_domain, iteration_array, cmap=colormap)
-plt.colorbar(graph)
-plt.xlabel("Real-Axis")
-plt.ylabel("Imaginary-Axis")
-plt.title(f"Computation took {elapsed:.3f} seconds")
-plt.gcf().set_size_inches(5,4)
-plt.show()
+# Create grid function
+def grid():
+    # Create the stepsize i.e. the value difference between each point
+    step_x = (x_max - x_min) / (size - 1)
+    step_y = (y_max - y_min) / (size - 1)
+
+    # Create the lists, with respect to stepsize
+    real = [x_min + step_x * i for i in range(size)]
+    imag = [y_min + step_y * j for j in range(size)]
+ 
+    return real, imag
+
+# Mandelbrot loop function
+def mandelbrot():
+    start = time.time()
+
+    real, imag = grid()
+    iteration_array = []
+
+    for y in imag:
+        row = []
+        for x in real:
+            c = complex(x, y)
+            z = 0
+            for iteration_number in range(max_iter):
+                if(abs(z) >= bound):
+                    row.append(iteration_number)
+                    break
+                z = z**power + c
+            else:
+                row.append(0)
+        iteration_array.append(row)
+    
+    # End time of computation
+    elapsed = time.time() - start
+
+    # Visualisation
+    ax = plt.axes()
+    plt.rc('text', usetex = True)
+    ax.set_aspect('equal')
+    graph = ax.pcolormesh(real, imag, iteration_array, cmap='hot')
+    plt.colorbar(graph)
+    plt.xlabel("Real-Axis")
+    plt.ylabel("Imaginary-Axis")
+    plt.title(f"Computation took {elapsed:.3f} seconds")
+    plt.gcf().set_size_inches(5,4)
+    plt.show()
+
+    
+mandelbrot()
