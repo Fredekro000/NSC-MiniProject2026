@@ -1,5 +1,4 @@
-import time
-import matplotlib.pyplot as plt
+import time, matplotlib.pyplot as plt
 
 # Setup parameters
 bound = 2
@@ -29,7 +28,10 @@ def grid():
 def mandelbrot():
     start = time.time()
 
+    # Get the real and imaginary list
     real, imag = grid()
+
+    # Create list for
     iteration_array = []
 
     for y in imag:
