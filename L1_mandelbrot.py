@@ -41,7 +41,7 @@ def mandelbrot_naive(x_max, x_min, y_max, y_min, size):
     
     # End time of computation
     elapsed = time.time() - start
-    print(f"Computation took {elapsed:.3f} seconds")
+    #print(f"Computation took {elapsed:.3f} seconds")
 
     # Visualisation
     """

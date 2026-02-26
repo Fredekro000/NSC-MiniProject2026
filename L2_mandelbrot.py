@@ -26,14 +26,17 @@ def mandelbrot_numpy(x_max, x_min, y_max, y_min, size):
     
     return M
 
-sizes = [256, 512, 1024, 2048, 4096]
+
+mandelbrot_numpy(1, -2, 1.5, -1.5, 1024)
+
+""" sizes = [256, 512, 1024, 2048, 4096]
 
 for x in sizes:
     start = time.time()
     M = mandelbrot_numpy(1, -2, 1.5, -1.5, x)
     elapsed = time.time() - start
     print(f"Computation took {elapsed:.3f} seconds")
-
+ """
 """ ax = plt.axes()
 plt.rc('text', usetex = True)
 ax.set_aspect('equal')
