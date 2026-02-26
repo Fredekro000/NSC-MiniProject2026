@@ -2,6 +2,8 @@ import time , statistics
 
 from L3_naive_numba import mandelbrot_naive_numba
 from L3_hybrid_numba import mandelbrot_hybrid_numba
+from L2_mandelbrot import mandelbrot_numpy
+from L1_mandelbrot import mandelbrot_naive
 
 
 def bench(fn, *args,  runs =5):
@@ -18,10 +20,10 @@ def bench(fn, *args,  runs =5):
 _ = mandelbrot_hybrid_numba(1, -2, 1.5, -1.5, 64)
 _ = mandelbrot_naive_numba(1, -2, 1.5, -1.5, 64)
 
+t_naive = bench(mandelbrot_naive, 1, -2, 1.5, -1.5, 1024)
+t_numpy = bench(mandelbrot_numpy, 1, -2, 1.5, -1.5, 1024)
+t_numba = bench(mandelbrot_naive_numba, 1, -2, 1.5, -1.5, 1024)
 
-t_hybrid = bench(mandelbrot_hybrid_numba, 1, -2, 1.5, -1.5, 1024)
-t_full = bench(mandelbrot_naive_numba, 1, -2, 1.5, -1.5, 1024)
-
-print (f"Hybrid: {t_hybrid:.3f}s")
-print (f"Fully compiled: {t_full:.3f}s")
-print (f"Ratio: {t_hybrid/t_full:.1f}x")
+print (f"Naive: {t_naive:.3f}s")
+print (f"Numpy: {t_numpy:.3f}s")
+print (f"Numba: {t_numba:.3f}s")
