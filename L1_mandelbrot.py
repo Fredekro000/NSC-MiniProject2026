@@ -1,6 +1,10 @@
-import time, matplotlib.pyplot as plt
+import time, matplotlib.pyplot as plt, os
+from line_profiler import profile
+
+os.environ['LINE_PROFILE'] = '1'
 
 # Create grid function
+@profile
 def grid(x_max, x_min, y_max, y_min, size):
     # Create the stepsize i.e. the value difference between each point
     step_x = (x_max - x_min) / (size - 1)
@@ -13,6 +17,7 @@ def grid(x_max, x_min, y_max, y_min, size):
     return real, imag
 
 # Mandelbrot loop function
+@profile
 def mandelbrot_naive(x_max, x_min, y_max, y_min, size):
     start = time.time()
     bound = 2
@@ -41,7 +46,7 @@ def mandelbrot_naive(x_max, x_min, y_max, y_min, size):
     
     # End time of computation
     elapsed = time.time() - start
-    #print(f"Computation took {elapsed:.3f} seconds")
+    print(f"Computation took {elapsed:.3f} seconds")
 
     # Visualisation
     """
