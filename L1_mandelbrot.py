@@ -1,19 +1,7 @@
 import time, matplotlib.pyplot as plt
 
-# Setup parameters
-bound = 2
-power = 2
-max_iter = 100
-
-x_max = 1
-x_min = -2
-y_max = 1.5
-y_min = -1.5
-
-size = 1024
-
 # Create grid function
-def grid():
+def grid(x_max, x_min, y_max, y_min, size):
     # Create the stepsize i.e. the value difference between each point
     step_x = (x_max - x_min) / (size - 1)
     step_y = (y_max - y_min) / (size - 1)
@@ -25,11 +13,14 @@ def grid():
     return real, imag
 
 # Mandelbrot loop function
-def mandelbrot():
+def mandelbrot_naive(x_max, x_min, y_max, y_min, size):
     start = time.time()
+    bound = 2
+    power = 2
+    max_iter = 100
 
     # Get the real and imaginary list
-    real, imag = grid()
+    real, imag = grid(x_max, x_min, y_max, y_min, size)
 
     # Create list for
     iteration_array = []
@@ -50,8 +41,10 @@ def mandelbrot():
     
     # End time of computation
     elapsed = time.time() - start
+    print(f"Computation took {elapsed:.3f} seconds")
 
     # Visualisation
+    """
     ax = plt.axes()
     plt.rc('text', usetex = True)
     ax.set_aspect('equal')
@@ -61,7 +54,7 @@ def mandelbrot():
     plt.ylabel("Imaginary-Axis")
     plt.title(f"Computation took {elapsed:.3f} seconds")
     plt.gcf().set_size_inches(5,4)
-    plt.show()
+    plt.show() """
 
     
-mandelbrot()
+mandelbrot_naive(1, -2, 1.5, -1.5, 1024)

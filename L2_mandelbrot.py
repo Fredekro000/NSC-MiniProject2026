@@ -1,19 +1,6 @@
 import time, matplotlib.pyplot as plt, numpy as np
 
-# Setup parameters
-bound = 2
-power = 2
-max_iter = 100
-
-x_max = 1
-x_min = -2
-y_max = 1.5
-y_min = -1.5
-
-#size = 1024
-
-# Grid function
-def grid(size):
+def grid(x_max, x_min, y_max, y_min, size):
     x = np.linspace(x_min, x_max, size)
     y = np.linspace(y_min, y_max, size)
     X, Y = np.meshgrid(x, y)
@@ -22,9 +9,12 @@ def grid(size):
 
     return C
 
-# Mandelbrot function
-def mandelbrot(size):
-    C = grid(size)
+def mandelbrot_numpy(x_max, x_min, y_max, y_min, size):
+    bound = 2
+    power = 2
+    max_iter = 100
+
+    C = grid(x_max, x_min, y_max, y_min, size)
 
     Z = np.zeros_like(C)
     M = np.zeros(C.shape, dtype=int)
@@ -40,7 +30,7 @@ sizes = [256, 512, 1024, 2048, 4096]
 
 for x in sizes:
     start = time.time()
-    M = mandelbrot(size=x)
+    M = mandelbrot_numpy(1, -2, 1.5, -1.5, x)
     elapsed = time.time() - start
     print(f"Computation took {elapsed:.3f} seconds")
 
