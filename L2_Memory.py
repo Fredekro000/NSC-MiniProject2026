@@ -4,8 +4,6 @@ N = 10000
 
 a = np.random.rand(N, N) 
 
-
-
 start2 = time.time()
 for j in range(N):
     col_sum = np.sum(a[:, j])

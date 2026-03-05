@@ -20,10 +20,13 @@ def bench(fn, *args,  runs =5):
 _ = mandelbrot_hybrid_numba(1, -2, 1.5, -1.5, 64)
 _ = mandelbrot_naive_numba(1, -2, 1.5, -1.5, 64)
 
-t_naive = bench(mandelbrot_naive, 1, -2, 1.5, -1.5, 1024)
-t_numpy = bench(mandelbrot_numpy, 1, -2, 1.5, -1.5, 1024)
+t_hybrid = bench(mandelbrot_hybrid_numba, 1, -2, 1.5, -1.5, 1024)
+
+#t_naive = bench(mandelbrot_naive, 1, -2, 1.5, -1.5, 1024)
+#t_numpy = bench(mandelbrot_numpy, 1, -2, 1.5, -1.5, 1024)
 t_numba = bench(mandelbrot_naive_numba, 1, -2, 1.5, -1.5, 1024)
 
-print (f"Naive: {t_naive:.3f}s")
-print (f"Numpy: {t_numpy:.3f}s")
+#print (f"Naive: {t_naive:.3f}s")
+#print (f"Numpy: {t_numpy:.3f}s")
+print (f"Hybrid numba: {t_hybrid:.3f}s")
 print (f"Numba: {t_numba:.3f}s")
