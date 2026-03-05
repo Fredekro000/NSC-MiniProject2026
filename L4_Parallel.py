@@ -46,7 +46,7 @@ def mandelbrot_parallel(N, x_min, x_max, y_min, y_max, max_iter=100, n_workers=4
     return np.vstack(parts)
 
 if __name__ == '__main__':
-    # Warmup (not timed)
+    # Warmup
     _ = mandelbrot_serial(64, -2.0, 1.0, -1.5, 1.5, 100)
     _ = mandelbrot_parallel(64, -2.5, 1.0, -1.25, 1.25, n_workers=4)
 
