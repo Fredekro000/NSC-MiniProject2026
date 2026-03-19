@@ -64,7 +64,7 @@ def mandelbrot_parallel(pool, N, x_min, x_max, y_min, y_max, max_iter=100, n_wor
 
 
 # PARAMETERS
-N = 1024
+N = 4096
 max_iter = 100
 X_MIN, X_MAX = -2.5, 1.0
 Y_MIN, Y_MAX = -1.25, 1.25
