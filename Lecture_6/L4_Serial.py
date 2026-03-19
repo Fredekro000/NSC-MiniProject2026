@@ -41,5 +41,9 @@ def bench(fn, *args,  runs =5):
 
 _ = mandelbrot_serial(64, -2.0, 1.0, -1.5, 1.5, 100)
 
-t_split = bench(mandelbrot_serial, 1024, -2.0, 1.0, -1.5, 1.5, 100)
-print(f"Median computation time: {t_split:.3f}")
+def reffing():
+    ref = mandelbrot_serial(1024, -2.0, 1.0, -1.5, 1.5, 100)
+    return ref
+
+#t_split = bench(mandelbrot_serial, 1024, -2.0, 1.0, -1.5, 1.5, 100)
+#print(f"Median computation time: {t_split:.3f}")

@@ -3,6 +3,8 @@ from dask.distributed import Client, LocalCluster
 import dask, numpy as np, time, statistics
 from numba import njit
 
+from L4_Serial import reffing
+
 @njit(fastmath=True)
 def mandelbrot_pixel(c_real, c_imag, max_iter):
     z_real = z_imag = 0.0
@@ -34,12 +36,15 @@ def mandelbrot_dask(N, x_min, x_max, y_min, y_max, max_iter=100, n_chunks=32):
         tasks.append(delayed(mandelbrot_chunk)(
             row, row_end, N, x_min, x_max, y_min, y_max, max_iter))
         row = row_end
+    #dask.visualize(*tasks, filename='graph.png')
     parts = dask.compute(*tasks)
     return np.vstack(parts)
 
 if __name__ == '__main__':
+    ref = reffing()
+
     N, max_iter = 1024, 100
-    X_MIN, X_MAX, Y_MIN, Y_MAX = -2.5, 1.0, -1.25, 1.25
+    X_MIN, X_MAX, Y_MIN, Y_MAX = -2.0, 1.0, -1.5, 1.5
     cluster = LocalCluster(n_workers=8, threads_per_worker=1)
     client = Client(cluster)
     client.run(lambda: mandelbrot_chunk(0, 8, 8, X_MIN, X_MAX, Y_MIN, Y_MAX, 10))
@@ -51,4 +56,5 @@ if __name__ == '__main__':
         times.append(time.perf_counter() - t0)
     print(f"Dask local (n_chunks=32): {statistics.median(times):.3f} s")
     client.close(); cluster.close()
-    
+
+    print(np.array_equal(ref, result))
