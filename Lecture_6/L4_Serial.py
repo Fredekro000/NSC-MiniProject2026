@@ -1,4 +1,4 @@
-import numpy as np
+import numpy as np, time
 from numba import njit
 from multiprocessing import Pool
 import time, os, statistics
@@ -42,8 +42,14 @@ def bench(fn, *args,  runs =5):
 _ = mandelbrot_serial(64, -2.0, 1.0, -1.5, 1.5, 100)
 
 def reffing():
-    ref = mandelbrot_serial(1024, -2.0, 1.0, -1.5, 1.5, 100)
-    return ref
+    times = []
+    for _ in range(3):
+        t0 = time.perf_counter()
+        ref = mandelbrot_serial(1024, -2.0, 1.0, -1.5, 1.5, 100)
+        times.append(time.perf_counter() - t0)
+    ref_time = statistics.median(times)
+    
+    return ref, ref_time
 
 #t_split = bench(mandelbrot_serial, 1024, -2.0, 1.0, -1.5, 1.5, 100)
 #print(f"Median computation time: {t_split:.3f}")
