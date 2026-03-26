@@ -43,23 +43,23 @@ def mandelbrot_dask(N, x_min, x_max, y_min, y_max, n_chunks, max_iter=100):
 if __name__ == '__main__':
     #ref, ref_time = reffing()
 
-    chunk_sizes = [1, 2, 4, 8, 16, 32, 64, 128]
+    #chunk_sizes = [1, 2, 4, 8, 16, 32, 64, 128]
 
-    for chunk in chunk_sizes:
+    #for chunk in chunk_sizes:
 
-        N, max_iter = 4096, 100
-        X_MIN, X_MAX, Y_MIN, Y_MAX = -2.0, 1.0, -1.5, 1.5
-        #cluster = LocalCluster(n_workers=8, threads_per_worker=1)
-        #client = Client(cluster)
-        client =Client("tcp://10.92.0.107:8786")
-        client.run(lambda: mandelbrot_chunk(0, 8, 8, X_MIN, X_MAX, Y_MIN, Y_MAX, 10))
+    N, max_iter = 4096, 100
+    X_MIN, X_MAX, Y_MIN, Y_MAX = -2.0, 1.0, -1.5, 1.5
+    #cluster = LocalCluster(n_workers=8, threads_per_worker=1)
+    #client = Client(cluster)
+    client =Client("tcp://10.92.0.107:8786")
+    client.run(lambda: mandelbrot_chunk(0, 8, 8, X_MIN, X_MAX, Y_MIN, Y_MAX, 10))
 
-        times = []
-        for _ in range(3):
-            t0 = time.perf_counter()
-            result = mandelbrot_dask(N, X_MIN, X_MAX, Y_MIN, Y_MAX, max_iter=100, n_chunks=chunk)
-            times.append(time.perf_counter() - t0)
-        print(f"Dask - Chunk size {chunk}: {statistics.median(times):.3f} s")
-        client.close();# cluster.close()
+    times = []
+    for _ in range(3):
+        t0 = time.perf_counter()
+        result = mandelbrot_dask(N, X_MIN, X_MAX, Y_MIN, Y_MAX, max_iter=100, n_chunks=32)
+        times.append(time.perf_counter() - t0)
+    print(f"Dask - Chunk size 32: {statistics.median(times):.3f} s")
+    client.close();# cluster.close()
 
-        #print(np.array_equal(ref, result))
+    #print(np.array_equal(ref, result))
