@@ -26,8 +26,10 @@ def mandelbrot_numpy(x_max, x_min, y_max, y_min, size):
     
     return M
 
-
-mandelbrot_numpy(1, -2, 1.5, -1.5, 1024)
+start = time.time()
+mandelbrot_numpy(1, -2, 1.5, -1.5, 4096)
+elapsed = time.time() - start
+print(f"Computation took {elapsed:.3f} seconds")
 
 """ sizes = [256, 512, 1024, 2048, 4096]
 

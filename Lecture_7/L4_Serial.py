@@ -51,5 +51,5 @@ def reffing():
     
     return ref, ref_time
 
-#t_split = bench(mandelbrot_serial, 1024, -2.0, 1.0, -1.5, 1.5, 100)
-#print(f"Median computation time: {t_split:.3f}")
+t_split = bench(mandelbrot_serial, 4096, -2.0, 1.0, -1.5, 1.5, 100)
+print(f"Median computation time: {t_split:.3f}")

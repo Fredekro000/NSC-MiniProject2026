@@ -57,4 +57,4 @@ def mandelbrot_naive(x_max, x_min, y_max, y_min, size):
     plt.show() """
 
     
-mandelbrot_naive(1, -2, 1.5, -1.5, 1024)
+mandelbrot_naive(1, -2, 1.5, -1.5, 4096)
