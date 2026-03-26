@@ -28,7 +28,7 @@ def mandelbrot_chunk(row_start, row_end, N, x_min, x_max, y_min, y_max, max_iter
             out[r, col] = mandelbrot_pixel(x_min + col*dx, c_imag, max_iter)
     return  out
 
-def mandelbrot_dask(N, x_min, x_max, y_min, y_max, max_iter=100, n_chunks=32):
+def mandelbrot_dask(N, x_min, x_max, y_min, y_max, n_chunks, max_iter=100):
     chunk_size = max(1, N // n_chunks)
     tasks, row = [], 0
     while row < N:
@@ -41,21 +41,25 @@ def mandelbrot_dask(N, x_min, x_max, y_min, y_max, max_iter=100, n_chunks=32):
     return np.vstack(parts)
 
 if __name__ == '__main__':
-    ref, ref_time = reffing()
+    #ref, ref_time = reffing()
 
-    N, max_iter = 1024, 100
-    X_MIN, X_MAX, Y_MIN, Y_MAX = -2.0, 1.0, -1.5, 1.5
-    #cluster = LocalCluster(n_workers=8, threads_per_worker=1)
-    #client = Client(cluster)
-    client =Client("tcp://10.92.0.107:8786")
-    client.run(lambda: mandelbrot_chunk(0, 8, 8, X_MIN, X_MAX, Y_MIN, Y_MAX, 10))
+    chunk_sizes = [1, 2, 4, 8, 16, 32]
 
-    times = []
-    for _ in range(3):
-        t0 = time.perf_counter()
-        result = mandelbrot_dask(N, X_MIN, X_MAX, Y_MIN, Y_MAX, max_iter=100)
-        times.append(time.perf_counter() - t0)
-    print(f"Dask local (n_chunks=32): {statistics.median(times):.3f} s")
-    client.close();# cluster.close()
+    for chunk in chunk_sizes:
 
-    print(np.array_equal(ref, result))
+        N, max_iter = 4096, 100
+        X_MIN, X_MAX, Y_MIN, Y_MAX = -2.0, 1.0, -1.5, 1.5
+        #cluster = LocalCluster(n_workers=8, threads_per_worker=1)
+        #client = Client(cluster)
+        client =Client("tcp://10.92.0.107:8786")
+        client.run(lambda: mandelbrot_chunk(0, 8, 8, X_MIN, X_MAX, Y_MIN, Y_MAX, 10))
+
+        times = []
+        for _ in range(3):
+            t0 = time.perf_counter()
+            result = mandelbrot_dask(N, X_MIN, X_MAX, Y_MIN, Y_MAX, max_iter=100, n_chunks=chunk)
+            times.append(time.perf_counter() - t0)
+        print(f"Dask - Chunk size {chunk}: {statistics.median(times):.3f} s")
+        client.close();# cluster.close()
+
+        #print(np.array_equal(ref, result))
