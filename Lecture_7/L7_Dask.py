@@ -43,7 +43,7 @@ def mandelbrot_dask(N, x_min, x_max, y_min, y_max, n_chunks, max_iter=100):
 if __name__ == '__main__':
     #ref, ref_time = reffing()
 
-    chunk_sizes = [1, 2, 4, 8, 16, 32]
+    chunk_sizes = [1, 2, 4, 8, 16, 32, 64, 128]
 
     for chunk in chunk_sizes:
 
