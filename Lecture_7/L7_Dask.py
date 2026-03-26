@@ -41,7 +41,7 @@ def mandelbrot_dask(N, x_min, x_max, y_min, y_max, max_iter=100, n_chunks=32):
     return np.vstack(parts)
 
 if __name__ == '__main__':
-    ref = reffing()
+    ref, ref_time = reffing()
 
     N, max_iter = 1024, 100
     X_MIN, X_MAX, Y_MIN, Y_MAX = -2.0, 1.0, -1.5, 1.5
