@@ -18,7 +18,7 @@ def test_edge_case():
 
 
 # ----------------------
-# 2. Parametrized test (REQUIRED)
+# 2. Parametrized test 
 # ----------------------
 
 CASES = [
@@ -33,7 +33,7 @@ def test_pixel_parametrized(real, imag, max_iter, expected):
 
 
 # ----------------------
-# 3. Integration test (IMPORTANT)
+# 3. Integration test 
 # ----------------------
 
 def test_dask_matches_serial():
